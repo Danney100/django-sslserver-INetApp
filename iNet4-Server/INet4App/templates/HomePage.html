@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" type="text/css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    {% load static %}
+    <script>
+     var RecordSound ='{% static "Record.wav" %}'
+     var beginSound ='{% static "Begin.wav" %}'
+     var EndSound ='{% static "End.wav" %}'
+     var BadBeepSound ='{% static "Beep.wav" %}'
+     var atStartSound ='{% static "atStart.wav" %}'
+     var atEndSound ='{% static "atEnd.wav" %}'
+     var BeepSound ='{% static "Blip.wav" %}'
+     var listJobURL ='{% url 'ListjobAjax' %}'
+     var ReturnJobURL = '{% url 'ReturnJob' %}'
+     var SignjoboutURL = '{% url 'SignJobout' %}'
+     var CompleteJobURL ='{% url 'CompleteJob' %}'
+     var SaveJobURL ='{% url 'SavingJob' %}'
+    </script>
+
+    <style type="text/css">
+        .table-row
+        {
+           cursor:pointer;
+        }
+        #table-row, #table-col, #table-wrapper {
+            height: 10%;
+        }
+    </style>
+    <script type="text/javascript">
+      window.onbeforeunload = function() {
+          return "Have you put your job away"
+      }
+    </script>
+</head>
+{#<br/><br/> <br/>#}
+<br/>
+<body class="container">
+    <label hidden id="SelectedJobID"></label>
+    <label hidden id="Auth_id">{{ author_id }}</label>
+    <label hidden id="Location">{{ location }}</label>
+    <label hidden id="User_name">{{ user_name }}</label>
+    <label hidden id="User_type">{{ User_type }}</label>
+    <label hidden id="JobActive"></label>
+    <label hidden id="JobCompleted"></label>
+
+    <label hidden id="SysSub">{{ sys_sub }}</label>
+    <label hidden id="SysWT">{{ sys_wt }}</label>
+    <label hidden id="SysDept">{{ sys_dept }}</label>
+    <label hidden id="SysTyp">{{ sys_typ }}</label>
+<!--    <label hidden >{{ Exc }}</labelhidden>-->
+
+<!--    <i class="fas fa-microphone"></i>-->
+    <button class="btn danger" type="button"  data-toggle="collapse" data-target="#RecorderFormCollapse" aria-expanded="true" aria-controls="RecorderFormCollapse"><i class="fa fa-microphone fa-2x"></i></button>
+<!--    <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#RecorderFormCollapse" aria-expanded="true" aria-controls="RecorderFormCollapse"><i class="fa fa-eye fa-1x"></i></button>-->
+    <a href="http://cvi123.com/" target="_blank" >Support</a>
+    <label id="LoggedInAs">Logged in as {{ User_name }} - {{ author_id }} </label><label style="padding-left:25px; padding-right:25px;"></label><label id="job_detail"></label>
+    <div class="collapse" id="RecorderFormCollapse">
+        <div style="max-width: 28em;">
+          <div id="controls">
+             <button class="btn btn-danger btn-sm" id="recordButton">Record</button>
+             <button class="btn btn-primary btn-sm" id="pauseButton" disabled>Pause</button>
+             <button class="btn btn-primary btn-sm" id="stopButton" disabled>Stop</button>
+             <button class="btn btn-secondary btn-sm" id="uploadButton" disabled hidden>Upload</button>
+          </div>
+          <div id="formats"></div>
+            <p><strong>Recordings:</strong></p>
+            <ol id="recordingsList"></ol>
+        </div>
+    </div>
+
+    <div id="JobDetailDIV" style display="none" >
+        <div class="container">
+                <div class="row ">
+                    <div class="col-md-1 col-sm-1"></div>
+                    <div class="col-md-5 col-sm-5">
+                        <div class="btn-group">
+{#                            <button class="fa fa-backward fa-1x btn btn-outline-primary" onclick="backwardAudio()"></button>#}
+                            <button class="fa fa-step-backward fa-1x btn btn-outline-primary" onclick="toStart()"></button>
+                            <audio preload="none" id="AudioBLC" controls  controlsList="nodownload"> <source id="audSRC" src='' type='audio/mp4'></audio>
+                            <br/>
+{#                            <button class="fa fa-forward fa-2x btn btn-outline-primary" onclick="forwardAudio()"></button>#}
+                            <button class="fa fa-step-forward fa-1x btn btn-outline-primary" onclick="toEnd()"></button>
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-sm-1">
+                        <div class="btn-group-vertical">
+                            <button class="fa fa-caret-up fa-1x btn btn-outline-primary" onclick="FasterplaySpeed()"></button>
+                            <button class="fa fa-caret-down fa-1x btn btn-outline-primary" onclick="SlowerplaySpeed()"></button>
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-sm-1"></div>
+                    <div class="col-md-4 col-sm-4">
+                        <button  class="btn btn-secondary btn-sm" type="button" onclick="ReturnJob()">Return</button>
+                        <button class="btn btn-secondary btn-sm" type="button" onclick="SaveJob()">Save</button>
+                        <button class="btn btn-primary btn-sm" type="button" onclick="completeJob()">Complete</button>
+                         <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#FormCollapse" aria-expanded="true" aria-controls="FormCollapse">T<i class="fa fa-eye fa-1x"></i></button>
+                    </div>
+                </div>
+        </div>
+<!--    <div class="row">-->
+<!--        <div class="col-md-5">-->
+
+<!--&lt;!&ndash;            <button class="fa fa-step-backward fa-1x btn btn-outline-primary" onclick="toStart()"></button>&ndash;&gt;-->
+<!--&lt;!&ndash;            <button class="fa fa-fast-backward fa-1x btn btn-outline-primary" onclick="SlowerplaySpeed()"></button>&ndash;&gt;-->
+<!--&lt;!&ndash;            <button class="fa fa-play fa-2x btn btn-outline-primary" onclick="playAudio()"></button>&ndash;&gt;-->
+<!--&lt;!&ndash;            <button class="fa fa-pause fa-2x btn btn-outline-primary" onclick="pauseAudio()"></button>&ndash;&gt;-->
+<!--&lt;!&ndash;            <button class="fa fa-fast-forward fa-1x btn btn-outline-primary" onclick="FasterplaySpeed()"></button>&ndash;&gt;-->
+<!--&lt;!&ndash;              <button class="fa fa-step-forward fa-1x btn btn-outline-primary" onclick="toEnd()"></button>&ndash;&gt;-->
+
+<!--            <br/><br/>-->
+
+<!--        </div>-->
+<!--    </div>-->
+
+{#        <br/>#}
+{#                <div class="text-center">#}
+{#                    <button class="btn btn-outline-success" type="button" data-toggle="collapse" data-target="#FormCollapse" aria-expanded="false" aria-controls="FormCollapse">Editor <i class="fa fa-eye"></i></button>#}
+{#                </div>#}
+{#        <br/>#}
+
+        <div class="collapse" id="FormCollapse">
+                <form action="{% url 'SignJobout' %}" method="post">
+                    <textarea name="content" id="editor1">
+                    </textarea>
+                    <input class="btn-block btn-success text-center" type="submit" value="Submit">
+                </form>
+            <br/>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <form> {% csrf_token %}
+    <div class="row border rounded" id="Filterdiv" style="background-color:#cccccc;">
+        <div class="col-md-2 ">
+            <label>Status:</label>
+            <select class="mdb-select md-form btn btn-secondary dropdown-toggle" id="SelectedStatus" >
+              <option value="">select Status</option>
+              <option value="e" selected>InQueue</option>
+              <option value="c">Completed</option>
+              <option value="t">InTrans</option>
+              <option value="s">Saved Trans</option>
+              <option value="z">Archived</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label>Exclusive:</label>
+            <select class="mdb-select md-form btn btn-secondary dropdown-toggle" id="SelectedExclusive" >
+                {% if Exc == "all" %}
+                    <option value="" selected>Any Typist</option>
+                     {% for i in SelectExeclusiveList %}
+                        <option value="{{ i.UserID }}">{{ i.UserID }} {{ i.NameLast }}</option>
+                     {% endfor %}
+                {% else %}
+                    <option value="{{ Exc }}" selected>Your Work</option>
+                    <option value="">Any Typist</option>
+                    {% for i in SelectExeclusiveList %}
+                        {% if Exc == "{{ i.UserID }}" %}
+                            <option value="{{ i.UserID }}" selected>{{ i.UserID }} {{ i.NameLast }}</option>
+                        {% else %}
+                            <option value="{{ i.UserID }}">{{ i.UserID }} {{ i.NameLast }}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+            </select>
+        </div>
+        <div class="col-md-2">
+            <div class = "form-group">
+                <span class = "input-group-addon">Author: </span>
+                <input type = "text" class = "form-control" id="AutherInput" placeholder = "Author">
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class = "form-group">
+                <span class = "input-group-addon">WT: </span>
+                 {% if WTs == "all" %}
+                    <input type = "text" class = "form-control"  id="WorktypeInput"  placeholder = "WT">
+                 {% else %}
+                    <input type = "text" class = "form-control"  id="WorktypeInput" value="{{WTs}}"  placeholder = "WT" disabled>
+                 {% endif %}
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class = "form-group">
+                <span class = "input-group-addon">Dept: </span>
+                 {% if Depts == "all" %}
+                    <input type = "text" class = "form-control" id="DeptInput" placeholder = "Dt">
+                 {% else %}
+                    <input type = "text" class = "form-control"  id="DeptInput" value="{{Depts}}"  placeholder = "Dt" disabled>
+                 {% endif %}
+            </div>
+        </div>
+
+<!--        <div class="col-md-1">-->
+<!--            <div class = "form-group">-->
+<!--                <span class = "input-group-addon">Date: </span>-->
+<!--                 {% if Dates == "all" %}-->
+<!--                    <input type = "text" class = "form-control" id="DateInput" placeholder = "Date">-->
+<!--                 {% else %}-->
+<!--                    <input type = "text" class = "form-control"  id="DateInput" value="{{Dates}}"  placeholder = "Date" disabled>-->
+<!--                 {% endif %}-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="col-md-2">
+            <div class = "form-group">
+                <div class="col-md-1">
+                    <!--<button class="fa fa-sync" type="button" ></button>-->
+                    <span class = "input-group-addon">JobList: </span>
+                    <button class="btn btn-primary btn-sm" type="button" onclick="refreshPage()">Refresh</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+
+    <br/>
+    <h3 class="container">JobList - Documents <label id="RowCount">{{ rows|length }}</label></h3>
+    <br/>
+    <div class="container">
+    {% if rows %}
+        <table class='table table-bordered table-condensed table-striped table-hover table-responsive table table-sm' id="TBchange">
+              <thead>
+                <tr>
+                  <th>JobNumber</th>
+                  <th>Status</th>
+                  <th>Author</th>
+                  <th>Exclusive</th>
+                  <th>Subject</th>
+                  <th>WorkType</th>
+                  <th>Length</th>
+                  <th>AuthorDate</th>
+                  <th>AuthorTime</th>
+                  <th>Department</th>
+                  <th>Typist</th>
+                  <th>TransDate</th>
+                  <th>TransTime</th>
+                  <th hidden>FileName</th>
+                  <th>Priority</th>
+                  <th>SysID</th>
+                  <th>Location</th>
+                  <th hidden>DragonTranscribedText</th>
+                  <th>Marked</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                        {% for row in rows %}
+                            {% if row.Marked == "1" %}
+                        <tr class="table-row bg-success">
+                            {% elif row.DragonTranscribedText and row.Priority != 'P' %}
+                        <tr class="table-row bg-primary">
+                            {% elif row.Priority == 'P' and row.DragonTranscribedText %}
+                        <tr class="table-row table-danger">
+                            {% elif row.Priority == 'P' and not row.DragonTranscribedText %}
+                        <tr class="table-row bg-danger">
+<!--                        <tr class="table-row text-danger">-->
+                            {% else %}
+                        <tr class="table-row">
+                            {% endif %}
+
+<!--                            <td class="Jnom">{{row.JobNumber}}</td>-->
+<!--                            {% if row.FileStatus == "e" %}-->
+<!--                            <td class="JStatus">InQueue</td>-->
+<!--                            {% elif row.FileStatus == "t" %}-->
+<!--                            <td class="JStatus">InTrans</td>-->
+<!--                            {% elif row.FileStatus == "c" %}-->
+<!--                            <td class="JStatus">Completed</td>-->
+<!--                            {% elif row.FileStatus == "s" %}-->
+<!--                            <td class="JStatus">Saved</td>-->
+<!--                            {% elif row.FileStatus == "a" %}-->
+<!--                            <td class="JStatus">Archived</td>-->
+<!--                            {% elif row.FileStatus == "h" %}-->
+<!--                            <td class="JStatus">Hibernate</td>-->
+<!--                            {% else %}-->
+<!--                            <td class="JStatus">{{row.FileStatus}}</td>-->
+<!--                            {% endif %}-->
+
+
+                            <td class="Jnom">{{row.JobNumber}}</td>
+                            {% if row.FileStatus == "e" %}
+                            <td class="JStatus">InQueue</td>
+                            {% elif row.FileStatus == "t" %}
+                            <td class="JStatus">InTrans</td>
+                            {% elif row.FileStatus == "c" %}
+                            <td class="JStatus">Completed</td>
+                            {% elif row.FileStatus == "s" %}
+                            <td class="JStatus">Saved</td>
+                            {% elif row.FileStatus == "a" %}
+                            <td class="JStatus">Archived</td>
+                            {% elif row.FileStatus == "y" %}
+                            <td class="JStatus">Hibernate</td>
+                            {% else %}
+                            <td class="JStatus">{{row.FileStatus}}</td>
+                            {% endif %}
+
+                            <td class="JAuth">{{row.AuthorNameLast}}</td>
+                            <td class="Jtyp">{{row.Secretary}}</td>
+                            <td class="JSub">{{row.Subject}}</td>
+                            <td class="JWT">{{row.Worktype}}</td>
+                            <td>{{row.Length}}</td>
+                            <td class="JDate">{{row.DateDictation}}</td>
+                            <td class="JTime">{{row.TimeDictation}}</td>
+                            <td class="JDept">{{row.Department}}</td>
+                            <td>{{row.TransNameLast}}</td>
+                            <td>{{row.DateTranscription}}</td>
+                            <td>{{row.TimeTranscription}}</td>
+                            <td class="Fname" hidden>{{row.subFname}}</td>
+                            <td class="JPri">{{row.Priority}}</td>
+                            <td>{{row.SystemId}}</td>
+                            <td>{{row.Location}}</td>
+                            <td class="DTT" hidden>{{row.DragonTranscribedText}}</td>
+                            <td class="JMarked">{{row.Marked}}</td>
+                        </tr>
+                        {% endfor %}
+              </tbody>
+         </table>
+    {% else %}
+        <h1>There are no jobs to list</h1>
+    {% endif %}
+ </div>
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" hidden>
+  Please return your existing job before requesting another job
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">You have an active job</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       Please return your existing job before requesting another job
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+<!--        <button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<script type="text/javascript">-->
+<!--function con() {-->
+<!--    var answer = confirm("do you want to check our other products")-->
+<!--    if (answer){-->
+
+<!--        alert("bye");-->
+<!--    }-->
+<!--    else{-->
+<!--        window.location = "http://www.example.com";-->
+<!--    }-->
+<!--}-->
+<!--</script>-->
+<!--</head>-->
+
+<!--<body onunload="con();">-->
+<!--<h1 style="text-align:center">main page</h1>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+    <br/><br/>
+<!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+        {% load static%}
+    <script src='{% static "rec-app.js" %}'></script>
+        {% load static%}
+    <script src='{% static "browserController.js" %}'></script>
+
+        {% load static%}
+    <script src='{% static "TableChangements.js" %}'></script>
+</body>
+</html>
+

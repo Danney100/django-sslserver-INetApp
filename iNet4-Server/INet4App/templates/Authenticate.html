@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Authenticate </title>
+    <link rel="stylesheet" id="bootstrap-css" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load static%}
+    <link href='{% static "AuthendicateCSS.css" %}' rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+      <div class="main">
+         <div class="col-md-6 col-sm-12">
+             <div class="login-form">
+                     {% load static%}
+					<img src='{% static "LoginLogo.jpg" %}'  alt="IMG">
+                 <br/><br/>
+               <form action="{% url 'HomePage' %}" method="post">
+                   {% csrf_token %}
+                  <div class="form-group">
+                     <label>User Id</label>
+                     <input type="text" name="author_id" class="form-control" placeholder="User Id">
+                  </div>
+                  <div class="form-group">
+                     <label>Password</label>
+                     <input type="password" name="password" class="form-control" placeholder="Password">
+                  </div>
+                   <div class="form-group">
+                     <label>Location</label>
+                     <input type="text" name="location" class="form-control" placeholder="Location">
+                  </div>
+                  <button type="submit" class="btn btn-black">Login</button>
+               </form>
+            </div>
+         </div>
+      </div>
+<br/> <br/>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2e132972-098d-4c98-864b-a7bc0e7f535f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1baeeddqOuS7L935zDses3LL9DA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager">
+    <configuration name="iNet4-Server" type="Python.DjangoServer" factoryName="Django server">
+      <module name="iNet4-Server" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2e132972-098d-4c98-864b-a7bc0e7f535f" name="Default Changelist" comment="" />
+      <created>1588874727045</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1588874727045</updated>
+      <workItem from="1588874729280" duration="1648000" />
+      <workItem from="1588909754636" duration="624000" />
+      <workItem from="1589382729879" duration="599000" />
+      <workItem from="1589430397526" duration="1628000" />
+      <workItem from="1589572941964" duration="1459000" />
+      <workItem from="1589773207082" duration="1203000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="587" y="357" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588876360235">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="587" y="357" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1588876360235" />
+    <state x="520" y="378" key="com.intellij.ide.util.TipDialog" timestamp="1589773207618">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="520" y="378" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589773207618" />
+    <state x="520" y="286" width="607" height="536" key="find.popup" timestamp="1589431445268">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="520" y="286" width="607" height="536" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589431445268" />
+  </component>
+</project>

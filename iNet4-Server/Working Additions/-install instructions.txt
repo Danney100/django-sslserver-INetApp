@@ -1,0 +1,126 @@
+
+install python
+https://www.python.org/downloads/
+
+py
+
+move to teh iNet4-Server/ folder
+py get-pip.py
+
+py -m pip install django
+//pip install django
+
+py -m pip install django-sslserver
+//pip install django-sslserver
+
+typical
+py manage.py runserver 0.0.0.0:8000
+//python manage.py runserver 0.0.0.0:8000
+
+new
+py manage.py runsslserver 0.0.0.0:8000
+//python manage.py runsslserver 0.0.0.0:8000
+
+
+
+$ python manage.py runsslserver --certificate /path/to/certificate.crt --key /path/to/key.key
+
+
+python manage.py runsslserver 0.0.0.0:8000 --certificate "C:/Program Files/Apache Software Foundation/Apache2.4/conf/SSL2/server.crt" --key "C:/Program Files/Apache Software Foundation/Apache2.4/conf/SSL2/server.key"
+
+python manage.py runsslserver 0.0.0.0:8000 --certificate "C:/Program Files/Apache Software Foundation/Apache2.4/conf/server.crt" --key "C:/Program Files/Apache Software Foundation/Apache2.4/conf/server.key"
+
+python manage.py runsslserver 0.0.0.0:8000 --certificate "C:\VoiceSolutions\iNet4-Server\certs\server.crt" --key "C:\VoiceSolutions\iNet4-Server\certs\server.pem"
+
+python manage.py runsslserver 0.0.0.0:8000 --certificate "C:\VoiceSolutions\iNet4-Server\certs\server-w.crt" --key "C:\VoiceSolutions\iNet4-Server\certs\server-w.pem"
+
+python manage.py runsslserver 0.0.0.0:8000 --certificate "C:/VoiceSolutions/iNet4-Server/certs/server-w.crt" --key "C:/VoiceSolutions/iNet4-Server/certs/server-w.pem"
+python manage.py runsslserver 0.0.0.0:8000 --certificate "C:/VoiceSolutions/iNet4-Server/certs/server.crt" --key "C:/VoiceSolutions/iNet4-Server/certs/server.key"
+
+***New
+python manage.py runsslserver 0.0.0.0:8000 --certificate "C:/VoiceSolutions/iNet4-Server/certs/server-w.pem" --key "C:/VoiceSolutions/iNet4-Server/certs/server-w.key"
+python manage.py runsslserver --certificate /path/to/certificate.pem --key /path/to/key.key
+
+
+python manage.py runsslserver 0.0.0.0:8000 --certificate "C:\VoiceSolutions\iNet4-Server\certs/server.crt" --key "C:\VoiceSolutions\iNet4-Server\certs/server.pem"
+
+server-w
+
+C:\VoiceSolutions\iNet4-Server\certs
+
+C:/Program Files/Apache Software Foundation/Apache2.4/conf/SSL2/server.crt
+
+
+Using SSL certificate: C:\Users\test\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sslserver\certs\development.crt
+Using SSL key: C:\Users\test\AppData\Local\Programs\Python\Python38-32\lib\site-packages\sslserver\certs\development.key
+
+
+
+https://github.com/teddziuba/django-sslserver
+
+
+
+With django-extensions you can run the following command:
+
+python manage.py runserver_plus --cert certname
+It will generate a (self-signed) certificate automatically if it doesn't exist. Almost too simple.
+
+You just need to install the following dependencies:
+
+pip install django-extensions
+pip install Werkzeug
+pip install pyOpenSSL
+
+	let formatted_date = d.getFullYear() + " " + (d.getMonth() + 1) + " " + d.getDate() + " " + d.getHours() + " " + d.getMinutes() + " " + d.getSeconds()
+	console.log(formatted_date)
+
+download MicroSoft build tools with C++
+https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16
+
+Change the Environmental variables
+MOD_WSGI_APACHE_ROOTDIR
+C:\Program Files\Apache Software Foundation\Apache2.4
+
+pip install mod_wsgi
+
+The above failed
+download
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#mod_wsgi
+mod_wsgi‑4.7.1+ap24vc15‑cp38‑cp38‑win32.whl
+
+pip install mod_wsgi-4.7.1+ap24vc15-cp38-cp38-win32.whl
+
+mod_wsgi-express module-config
+
+LoadFile "c:/users/test/appdata/local/programs/python/python38-32/python38.dll"
+LoadModule wsgi_module "c:/users/test/appdata/local/programs/python/python38-32/lib/site-packages/mod_wsgi/server/mod_wsgi.cp38-win32.pyd"
+WSGIPythonHome "c:/users/test/appdata/local/programs/python/python38-32"
+
+
+
+
+LoadFile "c:/users/test/appdata/local/programs/python/python38-32/python38.dll"
+LoadModule wsgi_module "c:/users/test/appdata/local/programs/python/python38-32/lib/site-packages/mod_wsgi/server/mod_wsgi.cp38-win32.pyd"
+WSGIPythonHome "c:/users/test/appdata/local/programs/python/python38-32"
+
+WSGIScriptAlias /INet4App C:/VoiceSolutions/iNet4-Server/INetApp/wsgi.py
+WSGIPythonPath C:/VoiceSolutions/iNet4-Server/
+
+
+<Directory C:/VoiceSolutions/iNet4-Server/INetApp>
+<Files wsgi.py>
+Require all granted
+</Files>
+</Directory>
+
+-Add teh above to httpd.conf
+-Make changes to the /extras/httpd-vhosts.conf
+-add the wsgi_windows.py
+
+ENV Varabiles
+MOD_WSGI_APACHE_ROOTDIR
+
+
+https://www.codementor.io/@aswinmurugesh/deploying-a-django-application-in-windows-with-apache-and-mod_wsgi-uhl2xq09e
+
+
